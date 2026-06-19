@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Virtual environments
+.analyzer-venv/
+.venv/
+venv/
+node_modules/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Local config / cache
+.env
+.env.*
+!.env.example
+.scdl-gui.json
+.music-dl-gui.json
+.music-dl-gui/
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.log
+
+# Build output
+_enhanced/
+_stems/
+build/
+dist/
+web/dist/
+coverage/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Audio (don't commit large media)
+*.mp3
+*.flac
+*.wav
+*.m4a
+*.aac
+*.opus
+*.ogg
+
+# Excluded from the public release (legal/brand) — local-only modules
+/downloader_local.py
+/app.py
+legacy/
+# Internal AI/working notes — kept locally, not published
+docs/internal/

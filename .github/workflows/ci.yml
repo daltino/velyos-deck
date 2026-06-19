@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Install web dependencies
+        run: npm ci
+        working-directory: web
+
+      - name: Run checks
+        run: ./scripts/check.sh
+
+      - name: Secret smoke scan
+        run: |
+          ! rg --hidden --glob '!.git' --glob '!web/package-lock.json' --glob '!.github/workflows/ci.yml' 'PRIVATE KEY|CLIENT_SECRET|DATABASE_URL|AUTH_TOKEN=.*[^[:space:]]|PASSWORD=.*[^[:space:]]' .

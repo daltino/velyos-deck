@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="600" height="160">
+  <style>
+    .vely { font-family: 'Inter', 'Söhne', 'GT Walsheim', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 120px; letter-spacing: -6px; fill: #0B0F19; }
+    .os   { font-family: 'Inter', 'Söhne', 'GT Walsheim', 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: 120px; letter-spacing: -6px; fill: #E85D1F; }
+  </style>
+  <text x="40" y="120" class="vely">VELY<tspan class="os">OS</tspan></text>
+</svg>

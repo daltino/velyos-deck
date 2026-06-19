@@ -1,0 +1,8 @@
+# Optional analyzer/enhancement dependencies. Install only for workflows that need them.
+librosa
+numpy
+shazamio
+
+# Demucs/Torch and AudioSR are intentionally not pinned here yet because their
+# model/runtime licenses and platform constraints need separate review before
+# public distribution.

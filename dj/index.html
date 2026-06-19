@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Velyos Deck</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo-mark">VELYOS</span>
+    <span class="logo-text">Deck</span>
+  </div>
+  <div class="status">
+    <span id="setTimer" class="badge badge-off" title="Set duration">SET 0:00</span>
+    <span id="midiStatus" class="badge badge-off">MIDI OFF</span>
+    <span id="audioStatus" class="badge badge-off">AUDIO OFF</span>
+    <span id="kbdStatus" class="badge badge-off" title="Keyboard fallback">KEYS OFF</span>
+    <button id="recBtn" class="topbtn rec" title="Record mix">REC</button>
+    <button id="vizBtn" class="topbtn" title="Open visualizer">VIZ</button>
+    <button id="cueDeviceBtn" class="topbtn" title="Cue output device">CUE OUT</button>
+    <button id="connectBtn" class="primary">CONNECT</button>
+  </div>
+</header>
+
+<main class="decks">
+  <section class="deck deck-a" data-deck="0">
+    <div class="deck-head">
+      <div class="deck-label">A</div>
+      <div class="deck-title-block">
+        <div class="title" data-bind="title">Load track</div>
+        <div class="meta">
+          <span data-bind="artist"></span>
+          <span class="bpm" data-bind="bpm">--.-</span>
+          <span class="key" data-bind="camelot">--</span>
+          <span class="stem-badge" data-bind="stemBadge"></span>
+        </div>
+      </div>
+      <div class="deck-pitch">
+        <label>PITCH <span data-bind="pitch">+0.0%</span></label>
+        <input type="range" min="-50" max="50" value="0" step="0.1"
+               class="pitch-slider" data-control="pitch">
+      </div>
+    </div>
+
+    <div class="deck-strip">
+      <span class="deck-state" data-bind="state">STOP</span>
+      <span>CUE <b data-bind="cuePoint">0:00</b></span>
+      <span data-bind="elapsed">0:00</span>
+      <span data-bind="remaining">-0:00</span>
+      <button class="cue-toggle" data-control="cueToggle" title="Cue listen">CUE</button>
+    </div>
+
+    <div class="waveforms">
+      <canvas class="wave-overview" data-canvas="overview" height="72"></canvas>
+      <canvas class="wave-zoom" data-canvas="zoom" height="156"></canvas>
+    </div>
+
+    <div class="deck-controls">
+      <button class="ctrl big play" data-control="play">PLAY</button>
+      <button class="ctrl big cue" data-control="cue">CUE</button>
+      <button class="ctrl sync" data-control="sync">SYNC</button>
+      <button class="ctrl genstems" data-control="genstems" title="Generate stems via Demucs">STEMS</button>
+    </div>
+
+    <div class="eq-fx-row">
+      <div class="eq-block" data-mode="eq">
+        <div class="mode-tabs">
+          <button class="mode-btn is-active" data-mode-btn="eq">EQ</button>
+          <button class="mode-btn" data-mode-btn="stems">STEMS</button>
+        </div>
+        <div class="eq-row" data-pane="eq">
+          <div class="knob-wrap"><label>HIGH</label>
+            <input type="range" min="-26" max="26" value="0" step="0.5" class="knob" data-control="eqHigh"></div>
+          <div class="knob-wrap"><label>MID</label>
+            <input type="range" min="-26" max="26" value="0" step="0.5" class="knob" data-control="eqMid"></div>
+          <div class="knob-wrap"><label>LOW</label>
+            <input type="range" min="-26" max="26" value="0" step="0.5" class="knob" data-control="eqLow"></div>
+          <div class="knob-wrap filter"><label>FILTER</label>
+            <input type="range" min="0" max="1" value="0.5" step="0.001" class="knob" data-control="filter"></div>
+        </div>
+        <div class="stems-row" data-pane="stems" hidden>
+          <div class="stem-wrap"><label>VOC</label>
+            <input type="range" min="0" max="1.5" value="1" step="0.01" class="knob" data-stem="0"></div>
+          <div class="stem-wrap"><label>DRM</label>
+            <input type="range" min="0" max="1.5" value="1" step="0.01" class="knob" data-stem="1"></div>
+          <div class="stem-wrap"><label>BAS</label>
+            <input type="range" min="0" max="1.5" value="1" step="0.01" class="knob" data-stem="2"></div>
+          <div class="stem-wrap"><label>OTH</label>
+            <input type="range" min="0" max="1.5" value="1" step="0.01" class="knob" data-stem="3"></div>
+        </div>
+      </div>
+      <div class="vol-wrap big-vol"><label>VOL</label>
+        <input type="range" min="0" max="1.5" value="1" step="0.01" class="vol" data-control="volume" orient="vertical"></div>
+    </div>
+
+    <div class="fx-row">
+      <button class="fx-btn" data-fx="echo">ECHO</button>
+      <input type="range" min="0" max="1" value="0" step="0.01" data-fx-amount="echo" class="fx-amount">
+      <button class="fx-btn" data-fx="reverb">REV</button>
+      <input type="range" min="0" max="1" value="0" step="0.01" data-fx-amount="reverb" class="fx-amount">
+      <button class="fx-btn" data-fx="gate">GATE</button>
+      <input type="range" min="0" max="1" value="0" step="0.01" data-fx-amount="gate" class="fx-amount">
+    </div>
+
+    <div class="loops-row">
+      <button class="loop-btn" data-loop="0.25">1/4</button>
+      <button class="loop-btn" data-loop="0.5">1/2</button>
+      <button class="loop-btn" data-loop="1">1</button>
+      <button class="loop-btn" data-loop="2">2</button>
+      <button class="loop-btn" data-loop="4">4</button>
+      <button class="loop-btn" data-loop="8">8</button>
+      <button class="loop-btn" data-loop="16">16</button>
+      <button class="loop-toggle" data-control="loopToggle">LOOP</button>
+      <label class="slip-toggle"><input type="checkbox" data-control="slip"> SLIP</label>
+    </div>
+
+    <div class="cues">
+      <button class="cue-pad" data-cue="0">1</button>
+      <button class="cue-pad" data-cue="1">2</button>
+      <button class="cue-pad" data-cue="2">3</button>
+      <button class="cue-pad" data-cue="3">4</button>
+      <button class="cue-pad" data-cue="4">5</button>
+      <button class="cue-pad" data-cue="5">6</button>
+      <button class="cue-pad" data-cue="6">7</button>
+      <button class="cue-pad" data-cue="7">8</button>
+    </div>
+  </section>
+
+  <aside class="mixer">
+    <div class="mixer-head">
+      <span>MIXER</span>
+      <div class="mixer-meter">
+        <span id="mixerState">READY</span>
+        <div class="vu-master">
+          <canvas data-canvas="vu" height="24" width="72"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="coach" id="coach">
+      <div class="coach-label">COACH</div>
+      <div class="coach-msg" id="coachMsg">Connect</div>
+    </div>
+    <div class="automix" id="automixPanel">
+      <div class="automix-head">
+        <span>AUTOMIX</span>
+        <button id="automixSkipBtn" class="mini-btn">NEXT</button>
+      </div>
+      <div class="automix-modes" id="automixModes" aria-label="AutoMix style">
+        <button class="automix-mode" data-automix-mode="club">CLUB</button>
+        <button class="automix-mode is-active" data-automix-mode="hype">HYPE</button>
+        <button class="automix-mode" data-automix-mode="radio">RADIO</button>
+        <button class="automix-mode" data-automix-mode="bass">BASS</button>
+      </div>
+      <div class="automix-drop-gates" aria-label="Outgoing drop gate">
+        <button class="automix-drop-gate is-active" data-automix-drop-gate="auto">AUTO</button>
+        <button class="automix-drop-gate" data-automix-drop-gate="1">DROP 1</button>
+        <button class="automix-drop-gate" data-automix-drop-gate="2">DROP 2</button>
+        <button class="automix-drop-gate" data-automix-drop-gate="3">DROP 3</button>
+      </div>
+      <div class="automix-creative">
+        <label class="automix-toggle"><input id="automixCreativeToggle" type="checkbox" checked> CREATIVE</label>
+        <div class="automix-intensity" aria-label="Creative intensity">
+          <button class="automix-intensity-btn" data-automix-intensity="low">LOW</button>
+          <button class="automix-intensity-btn is-active" data-automix-intensity="mid">MID</button>
+          <button class="automix-intensity-btn" data-automix-intensity="high">HIGH</button>
+        </div>
+      </div>
+      <button id="automixBtn" class="automix-btn">AUTO MIX</button>
+      <div class="automix-plan">
+        <span id="automixMixBadge" class="automix-badge">SAFE</span>
+        <span id="automixWhy" class="automix-why">WHY THIS MIX --</span>
+      </div>
+      <div class="automix-status" id="automixStatus">PREP queue ready</div>
+      <div class="automix-timeline" id="automixTimeline" aria-live="polite"></div>
+    </div>
+    <div class="generative" id="generativePanel">
+      <div class="generative-head">
+        <span>GEN DECK</span>
+        <span id="genStatus">GEN idle</span>
+      </div>
+      <div class="generative-controls">
+        <button id="genOnBtn" class="gen-btn">GEN ON</button>
+        <button id="genDrumsBtn" class="gen-btn is-active">DRUMS</button>
+        <button id="genBassBtn" class="gen-btn">BASS</button>
+        <button id="genFillBtn" class="gen-btn">FILL</button>
+      </div>
+      <label class="gen-intensity">INTENSITY
+        <input id="genIntensity" type="range" min="0" max="1" value="0.45" step="0.01">
+      </label>
+    </div>
+    <div class="xfader-block">
+      <label>CROSSFADER</label>
+      <input type="range" min="0" max="1" value="0.5" step="0.001"
+             class="xfader" id="xfader">
+      <div class="xfader-marks"><span>A</span><span>C</span><span>B</span></div>
+    </div>
+    <div class="master-vol">
+      <label>MASTER</label>
+      <input type="range" min="0" max="1.5" value="1" step="0.01" id="masterVol">
+    </div>
+    <div class="rec-status" id="recStatus">REC idle</div>
+  </aside>
+
+  <section class="deck deck-b" data-deck="1">
+    <div class="deck-head">
+      <div class="deck-pitch">
+        <label>PITCH <span data-bind="pitch">+0.0%</span></label>
+        <input type="range" min="-50" max="50" value="0" step="0.1"
+               class="pitch-slider" data-control="pitch">
+      </div>
+      <div class="deck-title-block">
+        <div class="title" data-bind="title">Load track</div>
+        <div class="meta">
+          <span data-bind="artist"></span>
+          <span class="bpm" data-bind="bpm">--.-</span>
+          <span class="key" data-bind="camelot">--</span>
+          <span class="stem-badge" data-bind="stemBadge"></span>
+        </div>
+      </div>
+      <div class="deck-label">B</div>
+    </div>
+
+    <div class="deck-strip">
+      <span class="deck-state" data-bind="state">STOP</span>
+      <span>CUE <b data-bind="cuePoint">0:00</b></span>
+      <span data-bind="elapsed">0:00</span>
+      <span data-bind="remaining">-0:00</span>
+      <button class="cue-toggle" data-control="cueToggle" title="Cue listen">CUE</button>
+    </div>
+
+    <div class="waveforms">
+      <canvas class="wave-overview" data-canvas="overview" height="72"></canvas>
+      <canvas class="wave-zoom" data-canvas="zoom" height="156"></canvas>
+    </div>
+
+    <div class="deck-controls">
+      <button class="ctrl big play" data-control="play">PLAY</button>
+      <button class="ctrl big cue" data-control="cue">CUE</button>
+      <button class="ctrl sync" data-control="sync">SYNC</button>
+      <button class="ctrl genstems" data-control="genstems" title="Generate stems via Demucs">STEMS</button>
+    </div>
+
+    <div class="eq-fx-row">
+      <div class="eq-block" data-mode="eq">
+        <div class="mode-tabs">
+          <button class="mode-btn is-active" data-mode-btn="eq">EQ</button>
+          <button class="mode-btn" data-mode-btn="stems">STEMS</button>
+        </div>
+        <div class="eq-row" data-pane="eq">
+          <div class="knob-wrap"><label>HIGH</label>
+            <input type="range" min="-26" max="26" value="0" step="0.5" class="knob" data-control="eqHigh"></div>
+          <div class="knob-wrap"><label>MID</label>
+            <input type="range" min="-26" max="26" value="0" step="0.5" class="knob" data-control="eqMid"></div>
+          <div class="knob-wrap"><label>LOW</label>
+            <input type="range" min="-26" max="26" value="0" step="0.5" class="knob" data-control="eqLow"></div>
+          <div class="knob-wrap filter"><label>FILTER</label>
+            <input type="range" min="0" max="1" value="0.5" step="0.001" class="knob" data-control="filter"></div>
+        </div>
+        <div class="stems-row" data-pane="stems" hidden>
+          <div class="stem-wrap"><label>VOC</label>
+            <input type="range" min="0" max="1.5" value="1" step="0.01" class="knob" data-stem="0"></div>
+          <div class="stem-wrap"><label>DRM</label>
+            <input type="range" min="0" max="1.5" value="1" step="0.01" class="knob" data-stem="1"></div>
+          <div class="stem-wrap"><label>BAS</label>
+            <input type="range" min="0" max="1.5" value="1" step="0.01" class="knob" data-stem="2"></div>
+          <div class="stem-wrap"><label>OTH</label>
+            <input type="range" min="0" max="1.5" value="1" step="0.01" class="knob" data-stem="3"></div>
+        </div>
+      </div>
+      <div class="vol-wrap big-vol"><label>VOL</label>
+        <input type="range" min="0" max="1.5" value="1" step="0.01" class="vol" data-control="volume" orient="vertical"></div>
+    </div>
+
+    <div class="fx-row">
+      <button class="fx-btn" data-fx="echo">ECHO</button>
+      <input type="range" min="0" max="1" value="0" step="0.01" data-fx-amount="echo" class="fx-amount">
+      <button class="fx-btn" data-fx="reverb">REV</button>
+      <input type="range" min="0" max="1" value="0" step="0.01" data-fx-amount="reverb" class="fx-amount">
+      <button class="fx-btn" data-fx="gate">GATE</button>
+      <input type="range" min="0" max="1" value="0" step="0.01" data-fx-amount="gate" class="fx-amount">
+    </div>
+
+    <div class="loops-row">
+      <button class="loop-btn" data-loop="0.25">1/4</button>
+      <button class="loop-btn" data-loop="0.5">1/2</button>
+      <button class="loop-btn" data-loop="1">1</button>
+      <button class="loop-btn" data-loop="2">2</button>
+      <button class="loop-btn" data-loop="4">4</button>
+      <button class="loop-btn" data-loop="8">8</button>
+      <button class="loop-btn" data-loop="16">16</button>
+      <button class="loop-toggle" data-control="loopToggle">LOOP</button>
+      <label class="slip-toggle"><input type="checkbox" data-control="slip"> SLIP</label>
+    </div>
+
+    <div class="cues">
+      <button class="cue-pad" data-cue="0">1</button>
+      <button class="cue-pad" data-cue="1">2</button>
+      <button class="cue-pad" data-cue="2">3</button>
+      <button class="cue-pad" data-cue="3">4</button>
+      <button class="cue-pad" data-cue="4">5</button>
+      <button class="cue-pad" data-cue="5">6</button>
+      <button class="cue-pad" data-cue="6">7</button>
+      <button class="cue-pad" data-cue="7">8</button>
+    </div>
+  </section>
+</main>
+
+<section class="library">
+  <div class="lib-head">
+    <div class="lib-tabs" role="tablist" aria-label="Library views">
+      <button class="lib-tab is-active" data-lib-view="all">ALL</button>
+      <button class="lib-tab" data-lib-view="ready">READY</button>
+      <button class="lib-tab" data-lib-view="prepare">PREP</button>
+      <button class="lib-tab" data-lib-view="recent">RECENT</button>
+    </div>
+    <input id="librarySearch" placeholder="Search tracks">
+    <button id="libraryRefresh" class="lib-refresh" title="Reload library from server">REFRESH</button>
+    <span class="lib-stats" id="libStats"></span>
+    <div class="set-bar" aria-label="Set controls">
+      <select id="setSelect" title="Saved sets"></select>
+      <input id="setName" placeholder="Set name">
+      <button id="setLoad" class="set-btn">LOAD</button>
+      <button id="setSave" class="set-btn primary-lite">SAVE</button>
+      <button id="setClear" class="set-btn">CLEAR</button>
+      <button id="setDelete" class="set-btn danger-lite">DELETE</button>
+      <button id="setExportM3u" class="set-btn">M3U</button>
+      <button id="setExportJson" class="set-btn">JSON</button>
+    </div>
+  </div>
+  <table class="lib-table">
+    <thead>
+      <tr>
+        <th>#</th><th data-sort="title">Title</th><th data-sort="artist">Artist</th>
+        <th data-sort="bpm">BPM</th><th data-sort="key">Key</th><th data-sort="camelot">Camelot</th><th>Delta</th>
+        <th data-sort="energy">Energy</th><th data-sort="analysis_status">Ready</th><th>Stems</th>
+        <th class="actions">Action</th>
+      </tr>
+    </thead>
+    <tbody id="libBody"></tbody>
+  </table>
+</section>
+
+<dialog id="cueDeviceDialog">
+  <h3>Cue output</h3>
+  <p>Select headphone output.</p>
+  <select id="cueDeviceSelect" size="6"></select>
+  <div class="dialog-buttons">
+    <button id="cueDeviceCancel">Cancel</button>
+    <button id="cueDeviceOk" class="primary">OK</button>
+  </div>
+</dialog>
+
+<script src="audio.js"></script>
+<script src="dj-utils.js"></script>
+<script src="cues.js"></script>
+<script src="loops.js"></script>
+<script src="coach.js"></script>
+<script src="waveform.js"></script>
+<script src="visualizer.js"></script>
+<script src="deck.js"></script>
+<script src="library.js"></script>
+<script src="automix.js"></script>
+<script src="generative.js"></script>
+<script src="sb3-mapping.js"></script>
+<script src="midi.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

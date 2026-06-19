@@ -1,0 +1,171 @@
+:root {
+  --bg: #07080a;
+  --panel: #10151d;
+  --line: #263040;
+  --text: #eef2f6;
+  --muted: #8a94a6;
+  --ok: #47f5a6;
+  --warn: #ffc247;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+  background: #0b0e13;
+}
+
+header div {
+  display: grid;
+  gap: 2px;
+}
+
+header strong {
+  color: var(--ok);
+  font-size: 13px;
+}
+
+header span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+button,
+input {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #121822;
+  color: var(--text);
+  font: inherit;
+  font-weight: 900;
+}
+
+button {
+  padding: 8px 14px;
+}
+
+main {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+}
+
+.now,
+.library {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 10px;
+}
+
+.label,
+#stats {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+h1 {
+  margin: 6px 0 3px;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+p {
+  min-height: 18px;
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
+audio {
+  width: 100%;
+  min-height: 44px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+#playBtn {
+  color: #06100c;
+  background: var(--ok);
+  border-color: var(--ok);
+}
+
+#search {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+#list {
+  display: grid;
+  gap: 6px;
+}
+
+.track {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 54px;
+  border: 1px solid #1c2430;
+  border-radius: 7px;
+  background: #0b0f15;
+  padding: 8px;
+}
+
+.track.is-active {
+  border-color: var(--ok);
+}
+
+.track-title,
+.track-artist {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-title {
+  font-weight: 900;
+}
+
+.track-artist {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.track-meta {
+  color: var(--warn);
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
+}

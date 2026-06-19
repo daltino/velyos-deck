@@ -1,0 +1,42 @@
+Velyos Deck
+Copyright (c) 2026 VELYOS / Štěpán Manda.
+
+This program is free software licensed under the GNU Affero General Public
+License v3.0 (AGPL-3.0-only). See the LICENSE file for the full text.
+
+A separate commercial license is available from VELYOS for users who do not wish
+to comply with the AGPL (for example, to embed Velyos Deck in a closed-source or
+hosted commercial product). See COMMERCIAL-LICENSE.md.
+
+------------------------------------------------------------------------------
+Third-party tools and models
+------------------------------------------------------------------------------
+
+Velyos Deck integrates with third-party command-line tools and machine-learning
+models that are NOT part of this repository and are NOT redistributed with it.
+They are installed separately by the user. Their licenses and service terms may
+impose additional obligations. See docs/SBOM.md and docs/MODELS.md.
+
+Notable obligations:
+
+- ffmpeg: invoked as an external process. Standard distributions are licensed
+  under the GNU LGPL v2.1+ (some builds are GPL). Velyos Deck does not bundle
+  ffmpeg; users install it themselves. If you redistribute a bundle that
+  includes ffmpeg, you must comply with the ffmpeg license of that build.
+
+- Demucs / Torch and AudioSR model weights carry their own licenses; users
+  download them on explicit opt-in (see docs/MODELS.md). These features are
+  optional and marked experimental.
+
+- shazamio wraps the proprietary Shazam service API; its use is subject to
+  Shazam's terms. This feature is optional and marked experimental.
+
+------------------------------------------------------------------------------
+Media ownership
+------------------------------------------------------------------------------
+
+External media remains owned by its respective rights holders. Users are
+responsible for having the rights and permission required for any file they
+import, analyze, enhance, or play. See docs/USER_RESPONSIBILITIES.md.
+
+This file is not legal advice.
