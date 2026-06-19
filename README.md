@@ -10,6 +10,8 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="License: AGPL-3.0" src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg"></a>
+  <a href="https://github.com/VELYOS-AI/velyos-deck/releases"><img alt="Release" src="https://img.shields.io/github/v/release/VELYOS-AI/velyos-deck?include_prereleases"></a>
+  <a href="https://github.com/VELYOS-AI/velyos-deck/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/VELYOS-AI/velyos-deck?style=flat"></a>
   <img alt="Platform: macOS" src="https://img.shields.io/badge/platform-macOS-lightgrey.svg">
   <img alt="Status: beta" src="https://img.shields.io/badge/status-beta-orange.svg">
 </p>

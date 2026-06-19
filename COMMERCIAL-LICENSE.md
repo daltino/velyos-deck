@@ -26,7 +26,7 @@ commercial license.
 Contact VELYOS to discuss commercial licensing:
 
 - Organization: VELYOS (https://github.com/VELYOS-AI)
-- Contact: _add a contact email / form before public release_
+- Contact: open an inquiry at https://github.com/VELYOS-AI/velyos-deck/issues, or reach VELYOS via the org profile at https://github.com/VELYOS-AI
 
 > This document describes the intent of a dual-licensing model. The exact
 > commercial terms are provided in a signed agreement and are not legal advice.
